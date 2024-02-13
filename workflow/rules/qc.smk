@@ -8,7 +8,7 @@ rule fastqc:
         "--quiet",
     log:
         "results/logs/fastqc/{sample}-{unit}-R{read}.log",
-    threads: 14
+    threads: 16
     resources:
         mem_mb=1024
     wrapper:

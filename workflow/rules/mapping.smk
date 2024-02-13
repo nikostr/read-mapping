@@ -43,7 +43,7 @@ rule samtools_index:
         "results/logs/samtools_index/{dir}/{sample}.log",
     params:
         extra="",  # optional params string
-    threads: 4  # This value - 1 will be sent to -@
+    threads: 8  # This value - 1 will be sent to -@
     wrapper:
         "v3.3.6/bio/samtools/index"
 
@@ -79,7 +79,7 @@ rule minimap2_bam_sorted:
         extra="-x map-ont",  # optional
         sorting="coordinate",  # optional: Enable sorting. Possible values: 'none', 'queryname' or 'coordinate'
         sort_extra="",  # optional: extra arguments for samtools/picard
-    threads: 3
+    threads: 16
     wrapper:
         "v3.3.6/bio/minimap2/aligner"
 
