@@ -1,0 +1,14 @@
+executor: slurm
+restart-times: 0
+local-cores: 1
+jobs: 20
+keep-going: true
+max-threads: 20
+software-deployment-method: conda
+default-resources:
+  slurm_account: <account>
+  mem_mb: (threads*6400)
+  runtime: 5
+  slurm_partition: core
+  # Does currently not work
+  #slurm_extra: "'--qos=short'"
