@@ -105,17 +105,16 @@ rule samtools_merge:
 
 rule rename_single_unit_samples:
     input:
-        bam=lambda w: expand(
-                "results/mapped/{{datatype}}/{{sample}}-{unit}.bam",
-                unit=samples.loc[w.sample, w.datatype].unit
+        bam=lambda w: "results/mapped/{{datatype}}/{{sample}}-{unit}.bam".format(
+                unit=samples.droplevel('unit').loc[(w.sample,w.datatype),'unit'].iat[0]
                 ),
-        bai=lambda w: expand(
-                "results/mapped/{{datatype}}/{{sample}}-{unit}.bam.bai",
-                unit=samples.loc[w.sample, w.datatype].unit
+        bai=lambda w: "results/mapped/{{datatype}}/{{sample}}-{unit}.bam.bai".format(
+                unit=samples.droplevel('unit').loc[(w.sample,w.datatype),'unit'].iat[0]
                 ),
     output:
         bam="results/mapped/{datatype}/{sample}.bam",
         bai="results/mapped/{datatype}/{sample}.bam.bai",
+    localrule: True
     shell:
         "mv {input.bam} {output.bam} "
         " && "
