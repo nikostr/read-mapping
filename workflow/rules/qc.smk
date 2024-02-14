@@ -9,8 +9,6 @@ rule fastqc:
     log:
         "results/logs/fastqc/{sample}-{unit}-R{read}.log",
     threads: 16
-    resources:
-        mem_mb=1024
     wrapper:
         "v3.3.6/bio/fastqc"
 
