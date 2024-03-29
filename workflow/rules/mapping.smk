@@ -1,4 +1,4 @@
-ruleorder: pbmm2_align > samtools_index
+ruleorder: rename_single_unit_samples > pbmm2_align > samtools_index
 rule bwa_memx_meme:
     input:
         reads=get_trimmed_reads,
@@ -43,6 +43,9 @@ rule samtools_index:
         "results/logs/samtools_index/{dir}/{sample}.log",
     params:
         extra="",  # optional params string
+    wildcard_constraints:
+        dir=r"\S+",
+        sample=r"\S+"
     threads: 8  # This value - 1 will be sent to -@
     wrapper:
         "v3.3.6/bio/samtools/index"
@@ -115,6 +118,8 @@ rule rename_single_unit_samples:
         bam="results/mapped/{datatype}/{sample}.bam",
         bai="results/mapped/{datatype}/{sample}.bam.bai",
     localrule: True
+    wildcard_constraints:
+        sample="|".join(samples.sample_id.unique())
     shell:
         "mv {input.bam} {output.bam} "
         " && "
