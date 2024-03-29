@@ -17,9 +17,11 @@ def test_bwa_memx_meme():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/bwa_memx_meme/data")
         expected_path = PurePosixPath(".tests/unit/bwa_memx_meme/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("results/mapped/illumina/A-1.bam", file=sys.stderr)

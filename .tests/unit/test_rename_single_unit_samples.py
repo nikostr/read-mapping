@@ -17,9 +17,11 @@ def test_rename_single_unit_samples():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/rename_single_unit_samples/data")
         expected_path = PurePosixPath(".tests/unit/rename_single_unit_samples/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("results/mapped/illumina/A.bam results/mapped/illumina/A.bam.bai", file=sys.stderr)

@@ -17,9 +17,11 @@ def test_pbmm2_align():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/pbmm2_align/data")
         expected_path = PurePosixPath(".tests/unit/pbmm2_align/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("results/mapped/pacbio/F-1.bam results/mapped/pacbio/F-1.bam.bai", file=sys.stderr)

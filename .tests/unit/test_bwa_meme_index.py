@@ -17,9 +17,11 @@ def test_bwa_meme_index():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/bwa_meme_index/data")
         expected_path = PurePosixPath(".tests/unit/bwa_meme_index/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("resources/genome.fasta.0123 resources/genome.fasta.amb resources/genome.fasta.ann resources/genome.fasta.pac resources/genome.fasta.pos_packed resources/genome.fasta.suffixarray_uint64 resources/genome.fasta.suffixarray_uint64_L0_PARAMETERS resources/genome.fasta.suffixarray_uint64_L1_PARAMETERS resources/genome.fasta.suffixarray_uint64_L2_PARAMETERS", file=sys.stderr)

@@ -17,9 +17,11 @@ def test_fastp_pe():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/fastp_pe/data")
         expected_path = PurePosixPath(".tests/unit/fastp_pe/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("results/trimmed/A-1.1.fastq.gz results/trimmed/A-1.2.fastq.gz results/qc/fastp/A-1.html results/qc/fastp/A-1_fastp.json", file=sys.stderr)

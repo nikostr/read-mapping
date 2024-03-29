@@ -17,9 +17,11 @@ def test_minimap2_bam_sorted():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/minimap2_bam_sorted/data")
         expected_path = PurePosixPath(".tests/unit/minimap2_bam_sorted/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("results/mapped/ont/H-1.bam", file=sys.stderr)

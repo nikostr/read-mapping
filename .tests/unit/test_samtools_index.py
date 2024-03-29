@@ -17,9 +17,11 @@ def test_samtools_index():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/samtools_index/data")
         expected_path = PurePosixPath(".tests/unit/samtools_index/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("results/mapped/illumina/A-1.bam.bai", file=sys.stderr)

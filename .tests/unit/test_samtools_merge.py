@@ -17,9 +17,11 @@ def test_samtools_merge():
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/samtools_merge/data")
         expected_path = PurePosixPath(".tests/unit/samtools_merge/expected")
+        config_path = PurePosixPath(".tests/unit/config")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir)
+        shutil.copytree(config_path, workdir / "config")
 
         # dbg
         print("results/mapped/illumina/merged/D.bam", file=sys.stderr)
