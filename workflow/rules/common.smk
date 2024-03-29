@@ -20,6 +20,10 @@ samples.index = samples.index.set_levels(
 )  # enforce str in index
 #validate(samples, schema="../schemas/samples.schema.yaml")
 
+## Wildcard constraints
+wildcard_constraints:
+    datatype="|".join(samples.datatype.unique())
+
 ## Helper functions
 
 
