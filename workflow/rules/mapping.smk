@@ -109,10 +109,10 @@ rule samtools_merge:
 rule rename_single_unit_samples:
     input:
         bam=lambda w: "results/mapped/{{datatype}}/{{sample}}-{unit}.bam".format(
-                unit=samples.droplevel('unit').loc[(w.sample,w.datatype),'unit'].iat[0]
+                unit=samples.drop_duplicates(['sample_id', 'datatype'], keep=False).droplevel('unit').loc[(w.sample,w.datatype),'unit']
                 ),
         bai=lambda w: "results/mapped/{{datatype}}/{{sample}}-{unit}.bam.bai".format(
-                unit=samples.droplevel('unit').loc[(w.sample,w.datatype),'unit'].iat[0]
+                unit=samples.drop_duplicates(['sample_id', 'datatype'], keep=False).droplevel('unit').loc[(w.sample,w.datatype),'unit']
                 ),
     output:
         bam="results/mapped/{datatype}/{sample}.bam",
