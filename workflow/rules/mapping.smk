@@ -62,7 +62,7 @@ rule pbmm2_align:
         "results/logs/pbmm2_align/{sample}-{unit}.log",
     params:
         preset="CCS", # SUBREAD, CCS, HIFI, ISOSEQ, UNROLLED
-        sample="{sample}-{unit}", # sample name for @RG header
+        sample=r"{sample}-{unit}", # sample name for @RG header
         extra="--sort", # optional additional args
         loglevel="INFO",
     threads: 16
@@ -79,7 +79,7 @@ rule minimap2_bam_sorted:
     log:
         "results/logs/minimap2/{sample}-{unit}.log",
     params:
-        extra="-x map-ont",  # optional
+        extra=r"-x map-ont -R '@RG\tID:{sample}-{unit}\tSM:{sample}-{unit}'",  # optional
         sorting="coordinate",  # optional: Enable sorting. Possible values: 'none', 'queryname' or 'coordinate'
         sort_extra="",  # optional: extra arguments for samtools/picard
     threads: 16
