@@ -62,7 +62,7 @@ rule pbmm2_align:
         "results/logs/pbmm2_align/{sample}-{unit}.log",
     params:
         preset="CCS", # SUBREAD, CCS, HIFI, ISOSEQ, UNROLLED
-        sample="", # sample name for @RG header
+        sample=r"{sample}-{unit}", # sample name for @RG header
         extra=r"--sort --rg '@RG\tID:{sample}-{unit}\tSM:{sample}-{unit}'", # optional additional args
         loglevel="INFO",
     threads: 16
