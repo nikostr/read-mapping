@@ -110,6 +110,11 @@ def get_multiqc_input_from_samtools_stats(wildcards):
     return [re.sub(r'^results/mapped/(.*)\.bam$', r'results/qc/samtools_stats/\1.txt', s) for s in bams]
 
 
+def get_multiqc_input_from_deeptools_plotcoverage(wildcards):
+    bams = get_collect_bams_input(wildcards)
+    return [re.sub(r'^results/mapped/(.*)\.bam$', r'results/qc/deeptools_plotcoverage/coverage/\1.raw', s) for s in bams]
+
+
 def get_fastqc_input(wildcards):
     """Get fastq files of given sample-unit."""
     tmp_df = samples.copy()

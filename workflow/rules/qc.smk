@@ -29,10 +29,33 @@ rule samtools_stats:
         "v3.3.6/bio/samtools/stats"
 
 
+rule deeptools_plotcoverage:
+    input:
+        #bams=["a.bam"],
+        #bais=["a.bam.bai"],
+        bams="results/mapped/{dir}/{sample}.bam",
+        bais="results/mapped/{dir}/{sample}.bam.bai",
+    output:
+        #plot="coverage.png",
+        plot="results/qc/deeptools_plotcoverage/{dir}/{sample}.png",
+        # Optional raw counts
+        #raw_counts="coverage.raw",
+        raw_counts="results/qc/deeptools_plotcoverage/coverage/{dir}/{sample}.raw",
+        # Optional metrics
+        #metrics="coverage.metrics",
+    params:
+        extra="",
+    log:
+        "results/logs/deeptools_plotcoverage/{dir}/{sample}.log",
+    wrapper:
+        "v3.10.2/bio/deeptools/plotcoverage"
+
+
 rule multiqc:
     input:
         get_multiqc_input_from_samtools_stats,
         get_multiqc_input_from_fastqc,
+        get_multiqc_input_from_deeptools_plotcoverage,
         expand(
             "results/qc/fastp/{s.sample_id}-{s.unit}_fastp.json", s=samples.query('datatype=="illumina"').itertuples()
         ),
