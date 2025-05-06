@@ -21,7 +21,7 @@ rule bwa_memx_meme:
         "results/logs/bwa_memx/{sample}-{unit}.log",
     params:
         bwa="bwa-meme",
-        extra=r"-R '@RG\tID:{sample}-{unit}\tSM:{sample}-{unit}' -M",
+        extra=r"-R '@RG\tID:{sample}-{unit}\tSM:{sample}' -M",
         sort="samtools",  # Can be 'none' or 'samtools or picard'.
         sort_order="coordinate",  # Can be 'coordinate' (default) or 'queryname'.
         sort_extra="",  # Extra args for samtools.
