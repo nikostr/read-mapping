@@ -89,12 +89,12 @@ rule minimap2_bam_sorted:
 
 rule samtools_merge:
     input:
-        lambda w: expand(
+        lambda w: set(expand(
             "results/mapped/{datatype}/{sample}-{unit}.bam",
             datatype=samples.loc[w.sample].datatype,
             sample=w.sample,
             unit=samples.loc[w.sample].unit,
-        ),
+        )),
     output:
         "results/mapped/{datatype}/merged/{sample}.bam",
     log:
