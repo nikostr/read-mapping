@@ -10,7 +10,7 @@ rule fastqc:
         "results/logs/fastqc/{sample}-{unit}-R{read}.log",
     threads: 16
     resources:
-        mem_mb=lambda w, input, threads: threads * 1024
+        mem_mb=lambda w, input, threads: threads * 1024,
     wrapper:
         "v3.3.6/bio/fastqc"
 
@@ -57,7 +57,8 @@ rule multiqc:
         get_multiqc_input_from_fastqc,
         get_multiqc_input_from_deeptools_plotcoverage,
         expand(
-            "results/qc/fastp/{s.sample_id}-{s.unit}_fastp.json", s=samples.query('datatype=="illumina"').itertuples()
+            "results/qc/fastp/{s.sample_id}-{s.unit}_fastp.json",
+            s=samples.query('datatype=="illumina"').itertuples(),
         ),
     output:
         report(

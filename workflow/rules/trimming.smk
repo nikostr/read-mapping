@@ -11,8 +11,8 @@ rule fastp_se:
     log:
         "results/logs/fastp/{sample}-{unit}.log",
     params:
-        adapters='',
-        extra='--correction',
+        adapters="",
+        extra="--correction",
     threads: 8
     wrapper:
         "v3.3.6/bio/fastp"
@@ -31,8 +31,8 @@ rule fastp_pe:
     log:
         "results/logs/fastp/{sample}-{unit}.log",
     params:
-        adapters='',
-        extra='--correction',
+        adapters="",
+        extra="--correction",
     threads: 8
     wrapper:
         "v3.3.6/bio/fastp"

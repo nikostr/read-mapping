@@ -1,9 +1,9 @@
 rule bwa_meme_index:
     input:
-        config['genome'],
+        config["genome"],
     output:
         multiext(
-            config['genome'],
+            config["genome"],
             ".0123",
             ".amb",
             ".ann",

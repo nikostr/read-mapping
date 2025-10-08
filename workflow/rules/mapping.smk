@@ -1,10 +1,12 @@
 ruleorder: rename_single_unit_samples > pbmm2_align > samtools_index
+
+
 rule bwa_memx_meme:
     input:
         reads=get_trimmed_reads,
-        reference=config['genome'],
+        reference=config["genome"],
         idx=multiext(
-            config['genome'],
+            config["genome"],
             ".0123",
             ".amb",
             ".ann",
@@ -45,7 +47,7 @@ rule samtools_index:
         extra="",  # optional params string
     wildcard_constraints:
         dir=r"\S+",
-        sample=r"\S+"
+        sample=r"\S+",
     threads: 8  # This value - 1 will be sent to -@
     wrapper:
         "v3.3.6/bio/samtools/index"
@@ -53,17 +55,17 @@ rule samtools_index:
 
 rule pbmm2_align:
     input:
-        reference=config['genome'], # can be either genome index or genome fasta
-        query=get_pbmm2_input, # can be either unaligned bam, fastq, or fasta
+        reference=config["genome"],  # can be either genome index or genome fasta
+        query=get_pbmm2_input,  # can be either unaligned bam, fastq, or fasta
     output:
         bam=temp("results/mapped/pacbio/{sample}-{unit}.bam"),
         index=temp("results/mapped/pacbio/{sample}-{unit}.bam.bai"),
     log:
         "results/logs/pbmm2_align/{sample}-{unit}.log",
     params:
-        preset="CCS", # SUBREAD, CCS, HIFI, ISOSEQ, UNROLLED
-        sample=r"{sample}-{unit}", # sample name for @RG header
-        extra=r"--sort --rg '@RG\tID:{sample}-{unit}\tSM:{sample}-{unit}'", # optional additional args
+        preset="CCS",  # SUBREAD, CCS, HIFI, ISOSEQ, UNROLLED
+        sample=r"{sample}-{unit}",  # sample name for @RG header
+        extra=r"--sort --rg '@RG\tID:{sample}-{unit}\tSM:{sample}-{unit}'",  # optional additional args
         loglevel="INFO",
     threads: 16
     wrapper:
@@ -72,7 +74,7 @@ rule pbmm2_align:
 
 rule minimap2_bam_sorted:
     input:
-        target=config['genome'],  # can be either genome index or genome fasta
+        target=config["genome"],  # can be either genome index or genome fasta
         query=get_ont_input,
     output:
         temp("results/mapped/ont/{sample}-{unit}.bam"),
@@ -89,12 +91,14 @@ rule minimap2_bam_sorted:
 
 rule samtools_merge:
     input:
-        lambda w: set(expand(
-            "results/mapped/{datatype}/{sample}-{unit}.bam",
-            datatype=samples.loc[w.sample].datatype,
-            sample=w.sample,
-            unit=samples.loc[w.sample].unit,
-        )),
+        lambda w: set(
+            expand(
+                "results/mapped/{datatype}/{sample}-{unit}.bam",
+                datatype=samples.loc[w.sample].datatype,
+                sample=w.sample,
+                unit=samples.loc[w.sample].unit,
+            )
+        ),
     output:
         "results/mapped/{datatype}/merged/{sample}.bam",
     log:
@@ -109,17 +113,21 @@ rule samtools_merge:
 rule rename_single_unit_samples:
     input:
         bam=lambda w: "results/mapped/{{datatype}}/{{sample}}-{unit}.bam".format(
-                unit=samples.drop_duplicates(['sample_id', 'datatype'], keep=False).droplevel('unit').loc[(w.sample,w.datatype),'unit']
-                ),
+            unit=samples.drop_duplicates(["sample_id", "datatype"], keep=False)
+            .droplevel("unit")
+            .loc[(w.sample, w.datatype), "unit"]
+        ),
         bai=lambda w: "results/mapped/{{datatype}}/{{sample}}-{unit}.bam.bai".format(
-                unit=samples.drop_duplicates(['sample_id', 'datatype'], keep=False).droplevel('unit').loc[(w.sample,w.datatype),'unit']
-                ),
+            unit=samples.drop_duplicates(["sample_id", "datatype"], keep=False)
+            .droplevel("unit")
+            .loc[(w.sample, w.datatype), "unit"]
+        ),
     output:
         bam="results/mapped/{datatype}/{sample}.bam",
         bai="results/mapped/{datatype}/{sample}.bam.bai",
     localrule: True
     wildcard_constraints:
-        sample="|".join(samples.sample_id.unique())
+        sample="|".join(samples.sample_id.unique()),
     shell:
         "mv {input.bam} {output.bam} "
         " && "
