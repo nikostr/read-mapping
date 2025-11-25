@@ -5,7 +5,7 @@ rule fastp_se:
     input:
         unpack(get_se_illumina_fastq),
     output:
-        trimmed="results/trimmed/{sample}-{unit}.fastq.gz",
+        trimmed=temp("results/trimmed/{sample}-{unit}.fastq.gz"),
         html="results/qc/fastp/{sample}-{unit}.html",
         json="results/qc/fastp/{sample}-{unit}_fastp.json",
     log:
@@ -23,8 +23,8 @@ rule fastp_pe:
         unpack(get_pe_illumina_fastq),
     output:
         trimmed=[
-            "results/trimmed/{sample}-{unit}.1.fastq.gz",
-            "results/trimmed/{sample}-{unit}.2.fastq.gz",
+            temp("results/trimmed/{sample}-{unit}.1.fastq.gz"),
+            temp("results/trimmed/{sample}-{unit}.2.fastq.gz"),
         ],
         html="results/qc/fastp/{sample}-{unit}.html",
         json="results/qc/fastp/{sample}-{unit}_fastp.json",
